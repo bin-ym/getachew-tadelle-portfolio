@@ -19,9 +19,9 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="px-4 py-2 text-sm border rounded-md hover:bg-muted transition"
+      className="px-4 py-2 text-sm border hover:bg-muted transition"
     >
-      {dark ? "Light Mode ☀️" : "Dark Mode 🌙"}
+      {dark ? "☀️" : "🌙"}
     </button>
   );
 }
