@@ -38,10 +38,7 @@ export default function FilmsPage() {
 
   return (
     <main className="px-6 py-24 max-w-6xl mx-auto">
-      <h1 className="font-serif text-4xl md:text-5xl mb-12">
-        Film & Media
-      </h1>
-
+      <h1 className="font-serif text-4xl md:text-5xl mb-12">Films</h1>
       <div className="grid md:grid-cols-2 gap-12 items-start">
         {/* Film list */}
         <ul className="space-y-6">
@@ -99,33 +96,59 @@ export default function FilmsPage() {
               allowFullScreen
             />
           </div>
-
-          {/* Film meta */}
-          <div className="text-sm text-muted-foreground">
-            <p className="font-semibold text-foreground">
-              {activeFilm.title}
-            </p>
-            <p className="mt-1">
-              Roles: {activeFilm.roles.join(", ")}
-            </p>
-          </div>
         </div>
       </div>
 
-      {/* Interview */}
-      <section className="mt-20">
-        <h2 className="font-serif text-2xl md:text-3xl mb-6">
-          Interview with ሰአሊ ጌታቸው ታደለ – Getachew Tadelle
+      {/* ================= INTERVIEWS ================= */}
+      <section className="mt-24">
+        <h2 className="font-serif text-3xl md:text-4xl mb-12">
+          Interviews & Talks
         </h2>
 
-        <div className="aspect-video rounded-xl overflow-hidden border border-border bg-black">
-          <iframe
-            className="w-full h-full"
-            src="https://www.youtube-nocookie.com/embed/8CixyhC0qBk"
-            title="Getachew Tadelle Interview"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[
+            {
+              title: "Interview – Getachew Tadelle",
+              youtubeId: "8CixyhC0qBk",
+            },
+            {
+              title: "Creative Journey & Film Career",
+              youtubeId: "5B6uhp1FSj8",
+            },
+            {
+              title: "Art, Cinema & Vision",
+              youtubeId: "spznSAmj3xs",
+            },
+            {
+              title: "Behind the Scenes Discussion",
+              youtubeId: "zlZVVN-jB20",
+            },
+          ].map((item) => (
+            <div
+              key={item.youtubeId}
+              className="rounded-2xl overflow-hidden border border-border bg-card shadow-lg hover:shadow-2xl transition"
+            >
+              {/* Video */}
+              <div className="aspect-video bg-black">
+                <iframe
+                  loading="lazy"
+                  className="w-full h-full"
+                  src={`https://www.youtube-nocookie.com/embed/${item.youtubeId}`}
+                  title={item.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+
+              {/* Caption */}
+              <div className="p-4">
+                <p className="font-semibold text-base">{item.title}</p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Interview / Media appearance
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </main>

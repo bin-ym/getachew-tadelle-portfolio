@@ -11,12 +11,12 @@ export default function Navbar() {
     <nav className="fixed top-0 inset-x-0 z-50 bg-background/80 backdrop-blur border-b border-border">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="font-serif text-lg">
+        <Link href="/" className="font-serif text-2xl">
           Getachew Tadelle
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-6 text-sm">
+        <div className="hidden md:flex items-center gap-6 text-l">
           <Link href="/about">About</Link>
           <Link href="/art">Art</Link>
           <Link href="/films">Films</Link>

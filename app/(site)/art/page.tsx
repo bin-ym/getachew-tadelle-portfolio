@@ -3,7 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
-const images = [
+/* ================= IMAGE SETS ================= */
+const artImages = [
+  "/art/art8.jpg",
   "/art/art1.jpg",
   "/art/art2.jpg",
   "/art/art3.jpg",
@@ -11,7 +13,6 @@ const images = [
   "/art/art5.jpg",
   "/art/art6.jpg",
   "/art/art7.jpg",
-  "/art/art8.jpg",
   "/art/art9.jpg",
   "/art/art10.jpg",
   "/art/art11.jpg",
@@ -22,20 +23,26 @@ const images = [
   "/art/art16.jpg",
 ];
 
+const liveEventImages = [
+  "/art/live-event1.jpg",
+  "/art/live-event2.jpg",
+];
+
 export default function ArtGallery() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [activeImages, setActiveImages] = useState<string[]>([]);
   const startX = useRef(0);
 
   const activeImage =
-    activeIndex !== null ? images[activeIndex] : null;
+    activeIndex !== null ? activeImages[activeIndex] : null;
 
-  // Keyboard support
+  /* ================= Keyboard ================= */
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setActiveIndex(null);
 
       if (activeIndex !== null) {
-        if (e.key === "ArrowRight" && activeIndex < images.length - 1) {
+        if (e.key === "ArrowRight" && activeIndex < activeImages.length - 1) {
           setActiveIndex(activeIndex + 1);
         }
         if (e.key === "ArrowLeft" && activeIndex > 0) {
@@ -46,15 +53,14 @@ export default function ArtGallery() {
 
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [activeIndex]);
+  }, [activeIndex, activeImages]);
 
-  // Lock scroll
+  /* ================= Lock scroll ================= */
   useEffect(() => {
-    document.body.style.overflow =
-      activeIndex !== null ? "hidden" : "";
+    document.body.style.overflow = activeIndex !== null ? "hidden" : "";
   }, [activeIndex]);
 
-  // Swipe handlers
+  /* ================= Swipe ================= */
   const handleStart = (x: number) => {
     startX.current = x;
   };
@@ -63,26 +69,98 @@ export default function ArtGallery() {
     if (activeIndex === null) return;
 
     const diff = startX.current - x;
-
     if (Math.abs(diff) < 60) return;
 
-    if (diff > 0 && activeIndex < images.length - 1) {
+    if (diff > 0 && activeIndex < activeImages.length - 1) {
       setActiveIndex(activeIndex + 1);
     }
-
     if (diff < 0 && activeIndex > 0) {
       setActiveIndex(activeIndex - 1);
     }
   };
 
+  const openGallery = (images: string[], index: number) => {
+    setActiveImages(images);
+    setActiveIndex(index);
+  };
+
   return (
     <>
-      {/* Gallery grid */}
-      <div className="pt-32 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {images.map((src, index) => (
+      {/* ================= FEATURED ARTWORK ================= */}
+      <section className="pt-32 pb-20 max-w-6xl mx-auto px-6">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Big Image */}
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+            <Image
+              src="/art/art8.jpg"
+              alt="Featured artwork"
+              width={1200}
+              height={900}
+              className="w-full h-[420px] md:h-[520px] object-cover"
+              priority
+            />
+          </div>
+
+          {/* Story */}
+          <div className="space-y-6">
+            <h2 className="font-serif text-3xl md:text-4xl">
+              Featured Artwork
+            </h2>
+
+            <p className="text-muted-foreground leading-relaxed">
+              This artwork gained massive attention during a TikTok live art
+              event, where almost 1 Million viewers engaged with the creative
+              process in real time.
+            </p>
+
+            <div className="rounded-xl border border-border bg-muted/40 p-5">
+              <p className="font-semibold text-lg">
+                💰 Sold for more than 5,000,000 Birr
+              </p>
+              <p className="text-sm text-muted-foreground mt-1">
+                TikTok Live Art Event
+              </p>
+            </div>
+
+            {/* ================= LIVE EVENT ================= */}
+            <div>
+              <p className="text-lg font-semibold mb-3">
+                TikTok Live Event Moments
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {liveEventImages.map((src, index) => (
+                  <button
+                    key={src}
+                    onClick={() => openGallery(liveEventImages, index)}
+                    className="relative overflow-hidden rounded-xl border border-border shadow-md group"
+                  >
+                    <Image
+                      src={src}
+                      alt="TikTok live event"
+                      width={600}
+                      height={400}
+                      className="w-full h-48 object-cover transition duration-500 group-hover:scale-105"
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= ART TITLE ================= */}
+      <h1 className="text-center font-serif text-2xl md:text-5xl mb-12">
+        Artworks Gallary
+      </h1>
+
+      {/* ================= GALLERY GRID ================= */}
+      <div className="pb-24 px-6 max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {artImages.map((src, index) => (
           <button
             key={src}
-            onClick={() => setActiveIndex(index)}
+            onClick={() => openGallery(artImages, index)}
             className="overflow-hidden rounded-xl shadow-lg transform hover:scale-105 hover:shadow-2xl transition duration-300"
           >
             <Image
@@ -96,7 +174,7 @@ export default function ArtGallery() {
         ))}
       </div>
 
-      {/* Modal */}
+      {/* ================= MODAL ================= */}
       {activeImage && (
         <div
           className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn"
@@ -112,45 +190,40 @@ export default function ArtGallery() {
           >
             {/* Close */}
             <button
-              aria-label="Close"
-              className="absolute top-3 right-3 text-white text-3xl font-light hover:text-red-500 transition z-50"
+              className="absolute top-3 right-3 text-white text-3xl hover:text-red-500 transition"
               onClick={() => setActiveIndex(null)}
             >
               ×
             </button>
 
             {/* Left */}
-            {activeIndex !== null && activeIndex > 0 && (
+            {activeIndex! > 0 && (
               <button
-                aria-label="Previous image"
                 className="absolute left-[-60px] top-1/2 -translate-y-1/2 text-white text-4xl opacity-70 hover:opacity-100 transition hidden md:block"
-                onClick={() => setActiveIndex((i) => (i !== null ? i - 1 : i))}
+                onClick={() => setActiveIndex(activeIndex! - 1)}
               >
                 ‹
               </button>
             )}
 
             {/* Right */}
-            {activeIndex !== null && activeIndex < images.length - 1 && (
+            {activeIndex! < activeImages.length - 1 && (
               <button
-                aria-label="Next image"
                 className="absolute right-[-60px] top-1/2 -translate-y-1/2 text-white text-4xl opacity-70 hover:opacity-100 transition hidden md:block"
-                onClick={() => setActiveIndex((i) => (i !== null ? i + 1 : i))}
+                onClick={() => setActiveIndex(activeIndex! + 1)}
               >
                 ›
               </button>
             )}
 
-            {/* Image */}
             <Image
               src={activeImage}
               alt="Artwork large"
-              width={1200}
-              height={900}
+              width={1400}
+              height={1000}
               className="max-h-[90vh] max-w-full object-contain rounded-xl shadow-2xl"
             />
 
-            {/* Hint */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-xs text-white/60">
               Swipe or use arrows
             </div>
