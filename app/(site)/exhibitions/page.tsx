@@ -28,6 +28,7 @@ const exhibitionImages = [
   "/exhibitions/exhi6.jpg",
   "/exhibitions/exhi7.jpg",
   "/exhibitions/exhi10.jpg",
+  "/exhibitions/exhi14.jpg",
   "/exhibitions/exhibition1.jpg",
 ];
 export default function ExhibitionsPage() {

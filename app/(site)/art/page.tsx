@@ -10,6 +10,11 @@ const artCategories = {
     subtitle:
       "Sacred expressions inspired by faith, tradition, and inner reflection.",
     images: [
+      "/art/art23.jpg",
+      "/art/art22.jpg",
+      "/art/art17.jpg",
+      "/art/art0.jpg",
+      "/art/art18.jpg",
       "/art/art1.jpg",
       "/art/art2.jpg",
       "/art/art3.jpg",
@@ -17,7 +22,10 @@ const artCategories = {
       "/art/art5.jpg",
       "/art/art6.jpg",
       "/art/art7.jpg",
-      "/art/art8.jpg",
+      "/art/art19.jpg",
+      "/art/art20.jpg",
+      "/art/art21.jpg",
+      "/art/art24.jpg",
     ],
   },
   contemporary: {
@@ -25,6 +33,7 @@ const artCategories = {
     subtitle:
       "Modern visual narratives exploring identity, culture, and emotion.",
     images: [
+      "/art/art25.jpg",
       "/art/art9.jpg",
       "/art/art10.jpg",
       "/art/art11.jpg",
@@ -33,6 +42,13 @@ const artCategories = {
       "/art/art14.jpg",
       "/art/art15.jpg",
       "/art/art16.jpg",
+      "/art/art26.jpg",
+      "/art/art27.jpg",
+      "/art/art28.jpg",
+      "/art/art29.jpg",
+      "/art/art30.jpg",
+      "/art/art31.jpg",
+      "/art/art32.jpg",
     ],
   },
 };
@@ -106,7 +122,7 @@ export default function ArtGallery() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="relative rounded-3xl overflow-hidden shadow-2xl">
             <Image
-              src="/art/art8.jpg"
+              src="/art/art0.jpg"
               alt="Featured artwork"
               width={1600}
               height={1100}
