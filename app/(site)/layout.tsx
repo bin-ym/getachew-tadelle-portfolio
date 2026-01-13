@@ -15,21 +15,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Getachew Tadelle | Artist & Filmmaker",
+  title: "Getachew Tadele | Artist & Filmmaker",
   description:
     "Ethiopian artist and filmmaker shaped by spirituality, culture, and inner vision.",
   openGraph: {
-    title: "Getachew Tadelle",
+    title: "Getachew Tadele",
     description:
       "Art, film, and exhibitions rooted in Ethiopian culture and spirituality.",
     url: "https://getachew-tadelle.vercel.app",
-    siteName: "Getachew Tadelle",
+    siteName: "Getachew Tadele",
     images: [
       {
         url: "/og.jpg",
         width: 1200,
         height: 630,
-        alt: "Getachew Tadelle – Artist & Filmmaker",
+        alt: "Getachew Tadele – Artist & Filmmaker",
       },
     ],
     type: "website",
@@ -43,7 +43,9 @@ export default function SiteLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         <Navbar />
         {children}
         <Footer />

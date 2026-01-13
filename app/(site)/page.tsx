@@ -47,7 +47,9 @@ export default function Home() {
             }`}
             style={{
               backgroundImage: `url(${src})`,
-              transform: `translateX(${isActive ? "0" : direction === "right" ? "100%" : "-100%"}) translateY(${offsetY}px)`,
+              transform: `translateX(${
+                isActive ? "0" : direction === "right" ? "100%" : "-100%"
+              }) translateY(${offsetY}px)`,
             }}
           />
         );
@@ -59,7 +61,7 @@ export default function Home() {
       {/* Hero content */}
       <section className="relative z-10 text-center text-white max-w-2xl px-6 space-y-6">
         <h1 className="text-6xl md:text-7xl font-serif drop-shadow-lg">
-          Getachew Tadelle
+          Getachew Tadele
         </h1>
         <p className="text-xl md:text-2xl text-neutral-300 drop-shadow">
           Artist & Filmmaker shaped by spirituality, culture, and inner vision.

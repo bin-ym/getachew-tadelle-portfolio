@@ -9,7 +9,7 @@ const exhibitions = [
   "Beteseb Memriya Exhibition",
   "Washington Hotel",
   "Hilton Hotel",
-  "Ghion Hotel",
+  "De Leopol Hotel",
 ];
 
 const exhibitionImages = [
@@ -43,7 +43,10 @@ export default function ExhibitionsPage() {
       if (e.key === "Escape") setActiveIndex(null);
 
       if (activeIndex !== null) {
-        if (e.key === "ArrowRight" && activeIndex < exhibitionImages.length - 1) {
+        if (
+          e.key === "ArrowRight" &&
+          activeIndex < exhibitionImages.length - 1
+        ) {
           setActiveIndex(activeIndex + 1);
         }
         if (e.key === "ArrowLeft" && activeIndex > 0) {
@@ -83,52 +86,51 @@ export default function ExhibitionsPage() {
   return (
     <>
       <main className="px-6 py-24 max-w-6xl mx-auto">
-
         {/* ================= HERO IMAGE WITH LIST ================= */}
-<section className="mb-20">
-  <div className="relative w-full h-[360px] md:h-[460px] lg:h-[560px] rounded-2xl overflow-hidden shadow-2xl">
-    <Image
-      src="/exhibitions/exhibition.jpg"
-      alt="Exhibition overview"
-      fill
-      priority
-      className="object-cover"
-    />
+        <section className="mb-20">
+          <div className="relative w-full h-[360px] md:h-[460px] lg:h-[560px] rounded-2xl overflow-hidden shadow-2xl">
+            <Image
+              src="/exhibitions/exhibition.jpg"
+              alt="Exhibition overview"
+              fill
+              priority
+              className="object-cover"
+            />
 
-    {/* Dark overlay */}
-    <div className="absolute inset-0 bg-black/40" />
+            {/* Dark overlay */}
+            <div className="absolute inset-0 bg-black/40" />
 
-    {/* Title */}
-    <div className="absolute bottom-6 left-6 z-10">
-      <h1 className="font-serif text-white text-3xl md:text-4xl lg:text-5xl">
-        Exhibitions
-      </h1>
-      <p className="text-white/70 mt-2 text-sm md:text-base">
-        Selected exhibitions & showcases
-      </p>
-    </div>
+            {/* Title */}
+            <div className="absolute bottom-6 left-6 z-10">
+              <h1 className="font-serif text-white text-3xl md:text-4xl lg:text-5xl">
+                Exhibitions
+              </h1>
+              <p className="text-white/70 mt-2 text-sm md:text-base">
+                Selected exhibitions & showcases
+              </p>
+            </div>
 
-    {/* Exhibition List Card */}
-    <div className="absolute right-6 bottom-6 md:top-1/2 md:-translate-y-1/2 z-10 max-w-sm w-full">
-      <div className="rounded-2xl bg-black/50 backdrop-blur-md border border-white/20 p-5 shadow-xl">
-        <h3 className="text-white font-semibold mb-4">
-          Exhibition List
-        </h3>
+            {/* Exhibition List Card */}
+            <div className="absolute right-6 bottom-6 md:top-1/2 md:-translate-y-1/2 z-10 max-w-sm w-full">
+              <div className="rounded-2xl bg-black/50 backdrop-blur-md border border-white/20 p-5 shadow-xl">
+                <h3 className="text-white font-semibold mb-4">
+                  Exhibition List
+                </h3>
 
-        <ul className="space-y-2 text-sm text-white/80">
-          {exhibitions.map((item) => (
-            <li
-              key={item}
-              className="border-l-2 border-white/40 pl-3 hover:text-white transition"
-            >
-              {item}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
+                <ul className="space-y-2 text-sm text-white/80">
+                  {exhibitions.map((item) => (
+                    <li
+                      key={item}
+                      className="border-l-2 border-white/40 pl-3 hover:text-white transition"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* ================= GALLERY TITLE ================= */}
         <h2 className="font-serif text-3xl md:text-4xl mb-12 text-center">

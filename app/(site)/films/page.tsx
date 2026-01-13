@@ -16,12 +16,12 @@ const films = [
   {
     title: "Yefeker Kal",
     youtubeUrl: "https://www.youtube.com/watch?v=NMHY-w5kJJU",
-    roles: ["Makeup Artist", "Color Director"],
+    roles: ["Makeup Artist"],
   },
   {
     title: "College ena Webet",
     youtubeUrl: "https://www.youtube.com/watch?v=sS0h-AnR_1Y",
-    roles: ["Makeup Artist", "Color Director"],
+    roles: ["Makeup Artist"],
   },
 ];
 
@@ -108,13 +108,13 @@ export default function FilmsPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {[
             {
-              title: "Interview – Getachew Tadelle",
+              title: "Interview – Getachew Tadele",
               youtubeId: "8CixyhC0qBk",
             },
-            {
-              title: "Creative Journey & Film Career",
-              youtubeId: "5B6uhp1FSj8",
-            },
+            // {
+            //   title: "Creative Journey & Film Career",
+            //   youtubeId: "5B6uhp1FSj8",
+            // },
             {
               title: "Art, Cinema & Vision",
               youtubeId: "spznSAmj3xs",

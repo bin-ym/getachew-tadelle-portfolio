@@ -26,7 +26,7 @@ export default function Footer() {
       </div>
 
       <div>
-        © {new Date().getFullYear()} Getachew Tadelle. All rights reserved.
+        © {new Date().getFullYear()} Getachew Tadele. All rights reserved.
       </div>
       <div className="text-xs text-muted-foreground">
         <span className="mr-1">Powered by</span>
