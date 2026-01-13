@@ -111,10 +111,6 @@ export default function FilmsPage() {
               title: "Interview – Getachew Tadele",
               youtubeId: "8CixyhC0qBk",
             },
-            // {
-            //   title: "Creative Journey & Film Career",
-            //   youtubeId: "5B6uhp1FSj8",
-            // },
             {
               title: "Art, Cinema & Vision",
               youtubeId: "spznSAmj3xs",

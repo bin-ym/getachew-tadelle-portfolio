@@ -25,6 +25,7 @@ const artCategories = {
     subtitle:
       "Modern visual narratives exploring identity, culture, and emotion.",
     images: [
+      "/art/art9.jpg",
       "/art/art10.jpg",
       "/art/art11.jpg",
       "/art/art12.jpg",
@@ -32,7 +33,6 @@ const artCategories = {
       "/art/art14.jpg",
       "/art/art15.jpg",
       "/art/art16.jpg",
-      "/art/art9.jpg",
     ],
   },
 };
@@ -45,13 +45,16 @@ const liveEventImages = [
 export default function ArtGallery() {
   const [activeCategory, setActiveCategory] =
     useState<keyof typeof artCategories>("spiritual");
+
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [modalImages, setModalImages] = useState<string[]>([]);
+
   const startX = useRef(0);
 
-  const categoryData = artCategories[activeCategory];
-  const activeImages = categoryData.images;
   const activeImage =
-    activeIndex !== null ? activeImages[activeIndex] : null;
+    activeIndex !== null ? modalImages[activeIndex] : null;
+
+  const categoryData = artCategories[activeCategory];
 
   /* ================= Keyboard ================= */
   useEffect(() => {
@@ -59,7 +62,7 @@ export default function ArtGallery() {
       if (e.key === "Escape") setActiveIndex(null);
 
       if (activeIndex !== null) {
-        if (e.key === "ArrowRight" && activeIndex < activeImages.length - 1) {
+        if (e.key === "ArrowRight" && activeIndex < modalImages.length - 1) {
           setActiveIndex(activeIndex + 1);
         }
         if (e.key === "ArrowLeft" && activeIndex > 0) {
@@ -70,7 +73,7 @@ export default function ArtGallery() {
 
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [activeIndex, activeImages]);
+  }, [activeIndex, modalImages]);
 
   /* ================= Lock scroll ================= */
   useEffect(() => {
@@ -88,7 +91,7 @@ export default function ArtGallery() {
     const diff = startX.current - x;
     if (Math.abs(diff) < 60) return;
 
-    if (diff > 0 && activeIndex < activeImages.length - 1) {
+    if (diff > 0 && activeIndex < modalImages.length - 1) {
       setActiveIndex(activeIndex + 1);
     }
     if (diff < 0 && activeIndex > 0) {
@@ -98,7 +101,7 @@ export default function ArtGallery() {
 
   return (
     <>
-      {/* ================= FEATURED ARTWORK ================= */}
+      {/* ================= FEATURED ================= */}
       <section className="pt-32 pb-24 max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="relative rounded-3xl overflow-hidden shadow-2xl">
@@ -131,7 +134,7 @@ export default function ArtGallery() {
               </p>
             </div>
 
-            {/* ================= LIVE EVENT ================= */}
+            {/* LIVE EVENT */}
             <div>
               <p className="text-xl font-semibold mb-4">
                 TikTok Live Event Moments
@@ -141,15 +144,18 @@ export default function ArtGallery() {
                 {liveEventImages.map((src, index) => (
                   <button
                     key={src}
-                    onClick={() => setActiveIndex(index)}
-                    className="relative overflow-hidden rounded-2xl border border-border shadow-lg group"
+                    onClick={() => {
+                      setModalImages(liveEventImages);
+                      setActiveIndex(index);
+                    }}
+                    className="relative overflow-hidden rounded-2xl shadow-lg group"
                   >
                     <Image
                       src={src}
-                      alt="TikTok live event"
+                      alt="Live event"
                       width={800}
                       height={600}
-                      className="w-full h-60 object-cover transition duration-500 group-hover:scale-105"
+                      className="w-full h-60 object-cover transition group-hover:scale-105"
                     />
                   </button>
                 ))}
@@ -169,41 +175,40 @@ export default function ArtGallery() {
         </p>
       </section>
 
-      {/* ================= CATEGORY FILTER ================= */}
+      {/* ================= FILTER ================= */}
       <div className="flex justify-center gap-4 mb-14 flex-wrap">
-        {Object.keys(artCategories).map((category) => {
-          const isActive = category === activeCategory;
-
-          return (
-            <button
-              key={category}
-              onClick={() =>
-                setActiveCategory(category as keyof typeof artCategories)
-              }
-              className={`px-6 py-2 rounded-full text-sm font-medium transition
-                ${
-                  isActive
-                    ? "bg-primary text-primary-foreground shadow-lg"
-                    : "bg-muted hover:bg-muted/70 text-muted-foreground"
-                }`}
-            >
-              {artCategories[category as keyof typeof artCategories].title}
-            </button>
-          );
-        })}
+        {Object.keys(artCategories).map((category) => (
+          <button
+            key={category}
+            onClick={() =>
+              setActiveCategory(category as keyof typeof artCategories)
+            }
+            className={`px-6 py-2 rounded-full text-sm font-medium transition
+              ${
+                category === activeCategory
+                  ? "bg-primary text-primary-foreground shadow-lg"
+                  : "bg-muted hover:bg-muted/70 text-muted-foreground"
+              }`}
+          >
+            {artCategories[category as keyof typeof artCategories].title}
+          </button>
+        ))}
       </div>
 
-      {/* ================= GALLERY GRID ================= */}
+      {/* ================= GALLERY ================= */}
       <div className="pb-32 px-6 max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {activeImages.map((src, index) => (
+        {categoryData.images.map((src, index) => (
           <button
             key={src}
-            onClick={() => setActiveIndex(index)}
-            className="overflow-hidden rounded-2xl shadow-xl transform hover:scale-[1.04] transition duration-300"
+            onClick={() => {
+              setModalImages(categoryData.images);
+              setActiveIndex(index);
+            }}
+            className="overflow-hidden rounded-2xl shadow-xl hover:scale-[1.04] transition"
           >
             <Image
               src={src}
-              alt={`${activeCategory} artwork`}
+              alt="Artwork"
               width={700}
               height={900}
               className="w-full h-[340px] md:h-[380px] object-cover"
@@ -227,7 +232,7 @@ export default function ArtGallery() {
             onMouseUp={(e) => handleEnd(e.clientX)}
           >
             <button
-              className="absolute top-4 right-4 text-white text-4xl hover:text-red-500 transition"
+              className="absolute top-4 right-4 text-white text-4xl"
               onClick={() => setActiveIndex(null)}
             >
               ×
@@ -238,7 +243,7 @@ export default function ArtGallery() {
               alt="Artwork large"
               width={1800}
               height={1200}
-              className="max-h-[92vh] max-w-full object-contain rounded-2xl shadow-2xl"
+              className="max-h-[92vh] max-w-full object-contain rounded-2xl"
             />
           </div>
         </div>
