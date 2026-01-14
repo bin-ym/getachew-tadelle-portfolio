@@ -5,6 +5,11 @@ import nodemailer from "nodemailer";
 
 export async function POST(req: NextRequest) {
   try {
+    const customHeader = req.headers.get("X-Custom-Header");
+    if (customHeader !== "ContactForm") {
+      return NextResponse.json({ error: "Invalid request" }, { status: 403 });
+    }
+
     const { name, email, message } = await req.json();
 
     if (!name || !email || !message) {
@@ -23,7 +28,7 @@ export async function POST(req: NextRequest) {
 
     await transporter.sendMail({
       from: `"${name}" <${email}>`,
-      to: process.env.CONTACT_EMAIL, // Your email
+      to: process.env.CONTACT_EMAIL,
       subject: `New message from ${name}`,
       text: message,
       html: `<p>${message}</p><p>From: ${name} &lt;${email}&gt;</p>`,

@@ -7,35 +7,36 @@ export default function ContactPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
+    setStatus("idle");
 
     try {
-      const res = await fetch("/api/contact", {
+      const formData = new FormData(e.currentTarget);
+
+      const res = await fetch("https://formspree.io/f/xdaaknab", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message }),
+        headers: {
+          Accept: "application/json",
+        },
+        body: formData,
       });
 
-      const data = await res.json();
-
       if (res.ok) {
-        setSubmitted(true);
+        setStatus("success");
         setName("");
         setEmail("");
         setMessage("");
-        setTimeout(() => setSubmitted(false), 3000);
+        e.currentTarget.reset();
       } else {
-        setError(data.error || "Failed to send message");
+        setStatus("error");
       }
     } catch {
-      setError("Failed to send message");
+      setStatus("error");
     } finally {
       setLoading(false);
     }
@@ -43,12 +44,8 @@ export default function ContactPage() {
 
   return (
     <main className="px-6 py-24 max-w-6xl mx-auto">
-      {/* ================= TITLE ================= */}
-      <h1 className="font-serif text-4xl md:text-5xl mb-12">
-        Contact
-      </h1>
+      <h1 className="font-serif text-4xl md:text-5xl mb-12">Contact</h1>
 
-      {/* ================= CONTENT ================= */}
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
         {/* ===== FORM ===== */}
         <div>
@@ -56,6 +53,7 @@ export default function ContactPage() {
 
           <form className="space-y-6" onSubmit={handleSubmit}>
             <input
+              name="name"
               type="text"
               placeholder="Name"
               className="w-full px-4 py-3 bg-background border border-border rounded-md"
@@ -65,6 +63,7 @@ export default function ContactPage() {
             />
 
             <input
+              name="email"
               type="email"
               placeholder="Email"
               className="w-full px-4 py-3 bg-background border border-border rounded-md"
@@ -74,6 +73,7 @@ export default function ContactPage() {
             />
 
             <textarea
+              name="message"
               placeholder="Message"
               rows={5}
               className="w-full px-4 py-3 bg-background border border-border rounded-md"
@@ -84,30 +84,30 @@ export default function ContactPage() {
 
             <button
               type="submit"
-              className="px-6 py-3 bg-primary text-primary-foreground rounded-md disabled:opacity-60"
               disabled={loading}
+              className="px-6 py-3 bg-primary text-primary-foreground rounded-md disabled:opacity-50"
             >
               {loading ? "Sending..." : "Send Message"}
             </button>
+
+            {/* FEEDBACK */}
+            {status === "success" && (
+              <p className="text-green-600 text-sm">
+                Message sent successfully. Thank you!
+              </p>
+            )}
+
+            {status === "error" && (
+              <p className="text-red-600 text-sm">
+                Something went wrong. Please try again.
+              </p>
+            )}
           </form>
-
-          {submitted && (
-            <div className="mt-4 bg-green-600 text-white px-4 py-2 rounded-md">
-              Message sent successfully ✨
-            </div>
-          )}
-
-          {error && (
-            <div className="mt-4 bg-red-600 text-white px-4 py-2 rounded-md">
-              {error}
-            </div>
-          )}
         </div>
 
         {/* ===== CONTACT CARD ===== */}
         <div className="lg:sticky lg:top-32">
           <div className="rounded-2xl bg-card border border-border shadow-xl overflow-hidden">
-            {/* IMAGE ON TOP */}
             <div className="relative h-40">
               <Image
                 src="/exhibitions/exhibition3.jpg"
@@ -118,7 +118,6 @@ export default function ContactPage() {
               <div className="absolute inset-0 bg-black/30" />
             </div>
 
-            {/* PHONE */}
             <a
               href="tel:+251931388494"
               className="flex items-center gap-4 px-6 py-6 hover:bg-muted transition"
@@ -126,15 +125,12 @@ export default function ContactPage() {
               <span className="text-3xl">📞</span>
               <div>
                 <p className="text-sm text-muted-foreground">Phone</p>
-                <p className="font-semibold text-lg">
-                  +251931388494
-                </p>
+                <p className="font-semibold text-lg">+251 931 388 494</p>
               </div>
             </a>
 
             <div className="h-px bg-border" />
 
-            {/* EMAIL */}
             <a
               href="mailto:getzarsema7@gmail.com"
               className="flex items-center gap-4 px-6 py-6 hover:bg-muted transition"
@@ -143,7 +139,7 @@ export default function ContactPage() {
               <div>
                 <p className="text-sm text-muted-foreground">Email</p>
                 <p className="font-semibold text-lg">
-                  getzarsema7@gamil.com
+                  getzarsema7@gmail.com
                 </p>
               </div>
             </a>

@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const films = [
   {
-    title: "Bamacash",
+    title: "Bamakash",
     youtubeUrl: "https://www.youtube.com/watch?v=uhH96azqaE0",
     roles: ["Writer", "Actor", "Action Director", "Executive Producer"],
   },
@@ -108,16 +108,28 @@ export default function FilmsPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {[
             {
-              title: "Interview – Getachew Tadele",
+              title: "ሰአሊ ጌታቸው ታደለ -Getachew Tadele Interview",
               youtubeId: "8CixyhC0qBk",
             },
             {
-              title: "Art, Cinema & Vision",
+              title: "ዋሽንግተን ሆቴል ሂዱና ይህንን ድንቅ ተመልከቱ | Visit Washington Hotel Exhibition",
               youtubeId: "spznSAmj3xs",
             },
             {
-              title: "Behind the Scenes Discussion",
+              title: "ከባማካሽ ፊልም ትልቅ ውጤት ጠብቄ ጦስን አትርፊያለው | Bamakash Movie Review",
               youtubeId: "zlZVVN-jB20",
+            },
+            {
+              title: "በ5 ሚሊየን ብር የተሸጠዉ የመላእክት ምስል ተዓምር አደረገ! | The Sold Angel Painting Story",
+              youtubeId: "zdp9bhAmI24",
+            },
+            {
+              title: "በ2000 ብር ብቻ ቤትዎን ያስውቡ | Build Your House With 2000 ETB",
+              youtubeId: "Xgi7EtAMx3Y",
+            },
+            {
+              title: "በእጄ የሳልኩት የመድኃኔዓለም ስዕል ተዓምር አደረገ! | The Handmade Painting Story",
+              youtubeId: "T4AdOfeEuWc",
             },
           ].map((item) => (
             <div
