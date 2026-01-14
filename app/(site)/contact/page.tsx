@@ -1,46 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
+import { useForm, ValidationError } from "@formspree/react";
 
 export default function ContactPage() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    setStatus("idle");
-
-    try {
-      const formData = new FormData(e.currentTarget);
-
-      const res = await fetch("https://formspree.io/f/xdaaknab", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-        },
-        body: formData,
-      });
-
-      if (res.ok) {
-        setStatus("success");
-        setName("");
-        setEmail("");
-        setMessage("");
-        e.currentTarget.reset();
-      } else {
-        setStatus("error");
-      }
-    } catch {
-      setStatus("error");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [state, handleSubmit] = useForm("xdaaknab");
 
   return (
     <main className="px-6 py-24 max-w-6xl mx-auto">
@@ -51,58 +15,63 @@ export default function ContactPage() {
         <div>
           <h2 className="font-serif text-2xl mb-6">Send a message</h2>
 
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <input
-              name="name"
-              type="text"
-              placeholder="Name"
-              className="w-full px-4 py-3 bg-background border border-border rounded-md"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+          {state.succeeded ? (
+            <p className="text-green-600">
+              Message sent successfully. Thank you!
+            </p>
+          ) : (
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <input
+                name="name"
+                type="text"
+                placeholder="Name"
+                required
+                className="w-full px-4 py-3 bg-background border border-border rounded-md"
+              />
 
-            <input
-              name="email"
-              type="email"
-              placeholder="Email"
-              className="w-full px-4 py-3 bg-background border border-border rounded-md"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+              <input
+                name="email"
+                type="email"
+                placeholder="Email"
+                required
+                className="w-full px-4 py-3 bg-background border border-border rounded-md"
+              />
 
-            <textarea
-              name="message"
-              placeholder="Message"
-              rows={5}
-              className="w-full px-4 py-3 bg-background border border-border rounded-md"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              required
-            />
+              <ValidationError
+                prefix="Email"
+                field="email"
+                errors={state.errors}
+              />
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-6 py-3 bg-primary text-primary-foreground rounded-md disabled:opacity-50"
-            >
-              {loading ? "Sending..." : "Send Message"}
-            </button>
+              <textarea
+                name="message"
+                rows={5}
+                placeholder="Message"
+                required
+                className="w-full px-4 py-3 bg-background border border-border rounded-md"
+              />
 
-            {/* FEEDBACK */}
-            {status === "success" && (
-              <p className="text-green-600 text-sm">
-                Message sent successfully. Thank you!
-              </p>
-            )}
+              <ValidationError
+                prefix="Message"
+                field="message"
+                errors={state.errors}
+              />
 
-            {status === "error" && (
-              <p className="text-red-600 text-sm">
-                Something went wrong. Please try again.
-              </p>
-            )}
-          </form>
+              <button
+                type="submit"
+                disabled={state.submitting}
+                className="px-6 py-3 bg-primary text-primary-foreground rounded-md disabled:opacity-50"
+              >
+                {state.submitting ? "Sending..." : "Send Message"}
+              </button>
+
+              {state.errors && Object.keys(state.errors).length > 0 && (
+                <p className="text-red-600 text-sm">
+                  Something went wrong. Please try again.
+                </p>
+              )}
+            </form>
+          )}
         </div>
 
         {/* ===== CONTACT CARD ===== */}
@@ -138,16 +107,10 @@ export default function ContactPage() {
               <span className="text-3xl">✉️</span>
               <div>
                 <p className="text-sm text-muted-foreground">Email</p>
-                <p className="font-semibold text-lg">
-                  getzarsema7@gmail.com
-                </p>
+                <p className="font-semibold text-lg">getzarsema7@gmail.com</p>
               </div>
             </a>
           </div>
-
-          <p className="mt-4 text-sm text-muted-foreground">
-            Open for exhibitions, collaborations & creative work.
-          </p>
         </div>
       </section>
     </main>
